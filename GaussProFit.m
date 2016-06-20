@@ -3,24 +3,31 @@
 % This model takes a set of data values for scaned beam widths (radius values) as a
 % function of distances and computes the width and position of beam waist
 % with least squares fminsearch
-
-% [w0,z0] = GaussProFit(z,wdataIn) 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%    USEAGE   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% [w0,z0] = GaussProFit(z,wIn) 
+% [w0,z0] = GaussProFit(z,wIn,lambda) 
+%
+% Input:
+% z = Beam width measurment points relative to some reference point (vector) [m]
+% wIn = beam width (radius) of beam at each of the above points (vector) [m]
+% (Optional) lambda = wavelength of laser light [m]
 %
 % Output:
 % w0  = radius width of beam at its waist [m]
 % z0  = poisition of beam waist [m]
 %
-% Input:
-% z = Beam width measurment points relative to some reference point (vector) [m]
-% w0 = beam width (radius) of beam at each of the above points (vector) [m]
-%
+% Notes:
 % Performs least squares fminsearch to find the best fit of the data to
 % give the beam waist and its position relative to the reference point z =
 % 0.
-%
+% 
+% ALL UNITS ARE SI
 %
 % Authour: Andrew Wade
-% Last edited: 9 June 2016  
+% Last Edited: 9 June 2016  
+%
+% Modifications:
 %
 
 
@@ -67,18 +74,20 @@ else
     zguess = z(indexMinw); % Set to data point closest to the waist
 end
 
-outVal = fminsearch(errorFunction,[min(wdata),zguess]);
+outVal = fminsearch(errorFunction,[min(wdata),zguess]); %Do the minimisation
 
-display('beam waist')
-outVal(1)*10^6
-display('beam waist position')
-outVal(2)*10^3
 
-zPlot = linspace(min(z),max(z),1000); %G
-figure(2)
+
+
+zPlot = linspace(min(z),max(z),1000); %Generate vector for plotting
+
+figure(1)
 plot(z, wdata, 'o', zPlot, w(zPlot,outVal(1),outVal(2)),'-')
-title('x-axis Gasussian beam width fit as a function of z')
+title('one-axis Gasussian beam width fit as a function of z')
 xlabel('z/mm')
 ylabel('beam radius/mircometers')
 legend('Data','Fitted Curve')
+hold on
+
+z0 = outVal(1); w0 = outVal(2);
 
