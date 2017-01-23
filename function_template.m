@@ -30,7 +30,7 @@ function [output1,output2] = function_template(input1,input2,input3)
 % Work address: West-bridge Caltech
 % email: awade@ligo.caltech.edu
 % Website: 
-% Month 2017; Last revision: xx-Month-YYYY
+% Created: yyyymmdd; Last revision: yyyymmdd
 
 %------------- BEGIN CODE --------------
 
@@ -38,3 +38,5 @@ Enter your executable matlab commands here
 
 %------------- END OF CODE --------------
 %Please send suggestions/questions to address at top of script
+
+end
