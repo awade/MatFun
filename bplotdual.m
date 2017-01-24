@@ -60,7 +60,7 @@ end
 %each plot
 
 for n = 1:length(struc.MetaList)
-    h{n}=figure(startFigNum - 1 + n);
+    h{n} = figure(startFigNum - 1 + n);
     subplot(2,1,1)
     plot(struc.(char(struc.MetaList(n))).fStitched,struc.(char(struc.MetaList(n))).ch1Stitched)
     ax = gca; % Returns handle of the curret axes for the current figure
@@ -76,6 +76,7 @@ for n = 1:length(struc.MetaList)
     ylabel(struc.(char(struc.MetaList(n))).yaxisLabelCh1)
     legend(struc.(char(struc.MetaList(n))).legendch1)
     grid on
+    hold off
     
     subplot(2,1,2)
     plot(struc.(char(struc.MetaList(n))).fStitched,struc.(char(struc.MetaList(n))).ch2Stitched)
