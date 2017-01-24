@@ -59,7 +59,13 @@ end
 
 for n = 1:length(s.MetaList)
     h{n} = figure(startFigNum - 1 + n);
-    plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched,s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
+    if isfield(s.(s.MetaList{n}),'ch2') % Only plots second channel if it is there in the structure to plot
+        plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched,s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
+        legend(s.(char(s.MetaList(n))).legendch1,s.(char(s.MetaList(n))).legendch2)
+    else
+        plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched)
+        legend(s.(char(s.MetaList(n))).legendch1)
+    end
     ax = gca; % Returns handle of the curret axes for the current figure
     ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
     ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
@@ -71,7 +77,6 @@ for n = 1:length(s.MetaList)
     title(s.(char(s.MetaList(n))).PlotTitle)
     xlabel(s.(char(s.MetaList(n))).xaxisLabel)
     ylabel(s.(char(s.MetaList(n))).yaxisLabelCh1)
-    legend(s.(char(s.MetaList(n))).legendch1,s.(char(s.MetaList(n))).legendch2)
     grid on
     hold off
 end
