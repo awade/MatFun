@@ -1,4 +1,4 @@
-function [h] = bplotdual(struc,varargin)
+function [h] = bplotdual(s,varargin)
 %bplotdual - Takes a structural vector with standard formate and plots a
 %dual channel disp with datasets plotted for both SA channels. Passes
 %function handes to calling function through array
@@ -59,10 +59,10 @@ end
 %Standard two pannel plot displaying one set of data (for each channel for
 %each plot
 
-for n = 1:length(struc.MetaList)
+for n = 1:length(s.MetaList)
     h{n} = figure(startFigNum - 1 + n);
     subplot(2,1,1)
-    plot(struc.(char(struc.MetaList(n))).fStitched,struc.(char(struc.MetaList(n))).ch1Stitched)
+    plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched)
     ax = gca; % Returns handle of the curret axes for the current figure
     ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
     ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
@@ -70,16 +70,17 @@ for n = 1:length(struc.MetaList)
     ax.XScale = 'log';
     ax.FontSize = 14; % Set the font size to something readable
     % % ax.YLim = [-170,-80]; % Set y-axis limits
-    ax.XLim = [min(min(struc.(char(struc.MetaList(n))).fStitched)),max(max(struc.(char(struc.MetaList(n))).fStitched))];
-    title(struc.(char(struc.MetaList(n))).Ch1Title)
-    xlabel(struc.(char(struc.MetaList(n))).xaxisLabel)
-    ylabel(struc.(char(struc.MetaList(n))).yaxisLabelCh1)
-    legend(struc.(char(struc.MetaList(n))).legendch1)
+    ax.XLim = [min(min(s.(char(s.MetaList(n))).fStitched)),max(max(s.(char(s.MetaList(n))).fStitched))];
+    title(s.(char(s.MetaList(n))).Ch1Title)
+    xlabel(s.(char(s.MetaList(n))).xaxisLabel)
+    ylabel(s.(char(s.MetaList(n))).yaxisLabelCh1)
+    legend(s.(char(s.MetaList(n))).legendch1)
     grid on
     hold off
     
+    
     subplot(2,1,2)
-    plot(struc.(char(struc.MetaList(n))).fStitched,struc.(char(struc.MetaList(n))).ch2Stitched)
+    plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
     % eval(['plot(' PlotEntryListPha ')']) % Plots list of entries created in do loop above, eval is useful for dynamic lines of code
     ax = gca; % Returns handle of the curret axes for the current figure
     ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
@@ -88,11 +89,11 @@ for n = 1:length(struc.MetaList)
     ax.YScale = 'log';
     ax.FontSize = 14; % Set the font size to something readable
     % % ax.YLim = [-170,-80]; % Set y-axis limits
-    ax.XLim = [min(min(struc.(char(struc.MetaList(n))).fStitched)),max(max(struc.(char(struc.MetaList(n))).fStitched))];
-    title(struc.(char(struc.MetaList(n))).Ch1Title)
-    xlabel(struc.(char(struc.MetaList(n))).xaxisLabel)
-    ylabel(struc.(char(struc.MetaList(n))).yaxisLabelCh2)
-    legend(struc.(char(struc.MetaList(n))).legendch2)
+    ax.XLim = [min(min(s.(char(s.MetaList(n))).fStitched)),max(max(s.(char(s.MetaList(n))).fStitched))];
+    title(s.(char(s.MetaList(n))).Ch1Title)
+    xlabel(s.(char(s.MetaList(n))).xaxisLabel)
+    ylabel(s.(char(s.MetaList(n))).yaxisLabelCh2)
+    legend(s.(char(s.MetaList(n))).legendch2)
     grid on
     hold off
 end
