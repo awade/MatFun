@@ -54,6 +54,8 @@ else
     startFigNum = 1;
 end
 
+% Warning second channel will be dropped when it doesn't exist
+
 
 
 %Standard two pannel plot displaying one set of data (for each channel for
@@ -78,24 +80,25 @@ for n = 1:length(s.MetaList)
     grid on
     hold off
     
-    
-    subplot(2,1,2)
-    plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
-    % eval(['plot(' PlotEntryListPha ')']) % Plots list of entries created in do loop above, eval is useful for dynamic lines of code
-    ax = gca; % Returns handle of the curret axes for the current figure
-    ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
-    ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
-    ax.XScale = 'log'; %Sets axis type to 'log'
-    ax.YScale = 'log';
-    ax.FontSize = 14; % Set the font size to something readable
-    % % ax.YLim = [-170,-80]; % Set y-axis limits
-    ax.XLim = [min(min(s.(char(s.MetaList(n))).fStitched)),max(max(s.(char(s.MetaList(n))).fStitched))];
-    title(s.(char(s.MetaList(n))).Ch1Title)
-    xlabel(s.(char(s.MetaList(n))).xaxisLabel)
-    ylabel(s.(char(s.MetaList(n))).yaxisLabelCh2)
-    legend(s.(char(s.MetaList(n))).legendch2)
-    grid on
-    hold off
+    if isfield(s.(s.MetaList{n}),'ch2') % Skips if channel is not there for data group
+        subplot(2,1,2)
+        plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
+        % eval(['plot(' PlotEntryListPha ')']) % Plots list of entries created in do loop above, eval is useful for dynamic lines of code
+        ax = gca; % Returns handle of the curret axes for the current figure
+        ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
+        ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
+        ax.XScale = 'log'; %Sets axis type to 'log'
+        ax.YScale = 'log';
+        ax.FontSize = 14; % Set the font size to something readable
+        % % ax.YLim = [-170,-80]; % Set y-axis limits
+        ax.XLim = [min(min(s.(char(s.MetaList(n))).fStitched)),max(max(s.(char(s.MetaList(n))).fStitched))];
+        title(s.(char(s.MetaList(n))).Ch1Title)
+        xlabel(s.(char(s.MetaList(n))).xaxisLabel)
+        ylabel(s.(char(s.MetaList(n))).yaxisLabelCh2)
+        legend(s.(char(s.MetaList(n))).legendch2)
+        grid on
+        hold off
+    end
 end
 
 
