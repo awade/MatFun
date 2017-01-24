@@ -58,7 +58,7 @@ end
 %each plot
 
 for n = 1:length(s.MetaList)
-    h{n} = figure(startFigNum - 1 + n)
+    h{n} = figure(startFigNum - 1 + n);
     plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched,s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
     ax = gca; % Returns handle of the curret axes for the current figure
     ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
