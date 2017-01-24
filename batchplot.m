@@ -29,27 +29,7 @@ s = import2struct(importList); % Generate blank array to be added to below
 
 [h] = bplotdual(s);
 
-
-%%
-startFigNum = 11;
-for n = 1:length(s.MetaList)
-    figure(startFigNum - 1 + n)
-    plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched,s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
-    ax = gca; % Returns handle of the curret axes for the current figure
-    ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
-    ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
-    ax.XScale = 'log'; %Sets axis type to 'log'
-    ax.YScale = 'log';
-    ax.FontSize = 14; % Set the font size to something readable
-    % % ax.YLim = [-170,-80]; % Set y-axis limits
-    ax.XLim = [min(min(s.(char(s.MetaList(n))).fStitched)),max(max(s.(char(s.MetaList(n))).fStitched))];
-    title(s.(char(s.MetaList(n))).PlotTitle)
-    xlabel(s.(char(s.MetaList(n))).xaxisLabel)
-    ylabel(s.(char(s.MetaList(n))).yaxisLabelCh1)
-    legend(s.(char(s.MetaList(n))).legendch1,s.(char(s.MetaList(n))).legendch2)
-    grid on
-    hold off
-end
+[h2] = bplot(s,10);
 
 %%
 startFigNum = 21;
