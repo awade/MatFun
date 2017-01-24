@@ -32,43 +32,7 @@ s = import2struct(importList); % Generate blank array to be added to below
 [h2] = bplot(s,10);
 
 %%
-startFigNum = 21;
-for n = 1:length(s.MetaList)
-    figure(startFigNum + 2*(n-1))
-    plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched)
-    ax = gca; % Returns handle of the curret axes for the current figure
-    ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
-    ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
-    ax.XScale = 'log'; %Sets axis type to 'log'
-    ax.YScale = 'log';
-    ax.FontSize = 14; % Set the font size to something readable
-    % % ax.YLim = [-170,-80]; % Set y-axis limits
-    ax.XLim = [min(min(s.(char(s.MetaList(n))).fStitched)),max(max(s.(char(s.MetaList(n))).fStitched))];
-    title(s.(char(s.MetaList(n))).Ch1Title)
-    xlabel(s.(char(s.MetaList(n))).xaxisLabel)
-    ylabel(s.(char(s.MetaList(n))).yaxisLabelCh1)
-    legend(s.(char(s.MetaList(n))).legendch1)
-    grid on
-    hold off
-    
-    figure(startFigNum + 1 + 2*(n-1))
-    plot(s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched)
-    ax = gca; % Returns handle of the curret axes for the current figure
-    ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
-    ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
-    ax.XScale = 'log'; %Sets axis type to 'log'
-    ax.YScale = 'log';
-    ax.FontSize = 14; % Set the font size to something readable
-    % % ax.YLim = [-170,-80]; % Set y-axis limits
-    ax.XLim = [min(min(s.(char(s.MetaList(n))).fStitched)),max(max(s.(char(s.MetaList(n))).fStitched))];
-    title(s.(char(s.MetaList(n))).Ch2Title)
-    xlabel(s.(char(s.MetaList(n))).xaxisLabel)
-    ylabel(s.(char(s.MetaList(n))).yaxisLabelCh1)
-    legend(s.(char(s.MetaList(n))).legendch2)
-    grid on
-    hold off
-end
-
+[~] = bplottwin(s,80);
 
 
 
