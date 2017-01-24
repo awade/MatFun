@@ -1,4 +1,4 @@
-function [h] = bplotdual(s,varargin)
+function [h] = bplot(s,varargin)
 %bplotdual - Takes a structural vector with standard formate and plots a
 %dual channel on single disp with datasets plotted for both SA channels. Passes
 %function handes to calling function through array
