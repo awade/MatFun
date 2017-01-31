@@ -87,15 +87,18 @@ for n = 1:length(importList(:,1)) % Loops to read in each file name in turn
         error('Wrong number of channels, must be either 1 or 2')
     end
     
+    size(Buffer_C)
     FileBatch = char(importList(n,2)); %Find metadata label for file entry in FileNames_wtMetaData
     if sum(ismember(fieldnames(s),FileBatch))>0 % Test if batch identifer is already present in 's', if so append to it in new row
-        s.(FileBatch).f = [ s.(FileBatch).f,Buffer_C{:,1}];
+        size(s.(FileBatch).f)
+        size([s.(FileBatch).f,Buffer_C{:,1}])
+        s.(FileBatch).f = [s.(FileBatch).f,s.(FileBatch).f,Buffer_C{:,1}];
         s.(FileBatch).ch1 = [s.(FileBatch).ch1,Buffer_C{:,2}];
         if (importList{n,4}==2)
             s.(FileBatch).ch2 = [s.(FileBatch).ch2,Buffer_C{:,3}];
         end
         s.(FileBatch).comment = [s.(FileBatch).comment,importList{n,12}];
-        s.(FileBatch).dataPlotTitle = [s.(FileBatch).dataPlotTitle,importList{n,5}];
+%         s.(FileBatch).dataPlotTitle = [s.(FileBatch).dataPlotTitle,importList{n,5}];
     else % If not already cell then create and dump in first data
         s.(FileBatch).f = Buffer_C{:,1};
         s.(FileBatch).ch1 = Buffer_C{:,2};
@@ -104,7 +107,7 @@ for n = 1:length(importList(:,1)) % Loops to read in each file name in turn
             s.(FileBatch).yaxisLabelCh2 = importList{n,10};
             s.(FileBatch).legendch2 = importList{n,12};
         end
-        s.(FileBatch).PlotTitle = importList{n,5};
+        s.(FileBatch).dataPlotTitle = importList{n,5};
         s.(FileBatch).Ch1Title = importList{n,6};
         s.(FileBatch).Ch2Title = importList{n,7};
         s.(FileBatch).xaxisLabel = importList{n,8};
