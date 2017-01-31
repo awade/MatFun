@@ -9,13 +9,13 @@ function s = import2struct(importList)
 %   importList =
 %   {'PSDNoiseIntergratorCircuitTMTF_13-01-2017_111010.txt','dataTag',30,2,'Plot all title','channelOneTitle','ChannelTwoTitle','xaxislabel','yaxislabelCh1','yaxislabelCh2','annotation','comment';...
 %     n more lines};
-%   
+%
 %   If channel unused leave black '' placeholders
 %
 % Outputs:
 %    s - Structed array containing all the data
 %
-% Example: 
+% Example:
 %    s = import2struct(importarray);
 %
 % Other m-files required: freqStitch.m
@@ -25,7 +25,7 @@ function s = import2struct(importList)
 % Author: Andrew Wade
 % Work address: West-bridge Caltech
 % email: awade@ligo.caltech.edu
-% Website: 
+% Website:
 % Jan 2017; Last revision: 20170123
 
 %------------- BEGIN CODE --------------
@@ -45,10 +45,10 @@ function s = import2struct(importList)
 %
 
 
-    % Function sorts data into dynamic cells acording to the metadata labeling 'nameTag'.  This will
-    % generate sub cells of array 's' that are length(C_Array)-by-m
-    % matrixes that contain multiply spans. Freqency, data, stitched data and comments as per text string label e.g. SQZ/AntiSQZ/SN/DN and are
-    % are also plotted as stitched data
+% Function sorts data into dynamic cells acording to the metadata labeling 'nameTag'.  This will
+% generate sub cells of array 's' that are length(C_Array)-by-m
+% matrixes that contain multiply spans. Freqency, data, stitched data and comments as per text string label e.g. SQZ/AntiSQZ/SN/DN and are
+% are also plotted as stitched data
 
 % TODO: Debug code remove later
 % importList = {
@@ -61,7 +61,7 @@ function s = import2struct(importList)
 % Lists all files to be loaded
 display('Files imported...');
 for n = 1:length(importList(:,1)) % Displays all the files to open.
-display(importList{n,1})
+    display(importList{n,1})
 end
 display('...end list');
 
@@ -74,7 +74,7 @@ s.MetaList = ''; % Preallocate blank list of meta tags
 h = waitbar(0,'Opening files...'); % Create waitbar and get its handle.
 for n = 1:length(importList(:,1)) % Loops to read in each file name in turn
     waitbar(n/length(importList(:,1)),h) % Update waitbar with progress through list of files
-
+    
     % Open file n and dump contents into a buffer variable
     fid = fopen(importList{n,1},'r'); % Opens file for reads
     if (importList{n,4}==1)
@@ -83,9 +83,9 @@ for n = 1:length(importList(:,1)) % Loops to read in each file name in turn
     elseif (importList{n,4}==2)
         Buffer_C = textscan(fid,'%f %f %f','HeaderLines',importList{n,3}); %scan csv material less header 2 lines into an 2x1 array nested in C. Each nested read has two columns of data
         fclose(fid); % Closes the file
-    else 
+    else
         error('Wrong number of channels, must be either 1 or 2')
-    end    
+    end
     
     FileBatch = char(importList(n,2)); %Find metadata label for file entry in FileNames_wtMetaData
     if sum(ismember(fieldnames(s),FileBatch))>0 % Test if batch identifer is already present in 's', if so append to it in new row
@@ -101,15 +101,15 @@ for n = 1:length(importList(:,1)) % Loops to read in each file name in turn
         s.(FileBatch).ch1 = Buffer_C{:,2};
         if (importList{n,4}==2)
             s.(FileBatch).ch2 = Buffer_C{:,3};
+            s.(FileBatch).yaxisLabelCh2 = importList{n,10};
+            s.(FileBatch).legendch2 = importList{n,12};
         end
         s.(FileBatch).PlotTitle = importList{n,5};
         s.(FileBatch).Ch1Title = importList{n,6};
         s.(FileBatch).Ch2Title = importList{n,7};
         s.(FileBatch).xaxisLabel = importList{n,8};
         s.(FileBatch).yaxisLabelCh1 = importList{n,9};
-        s.(FileBatch).yaxisLabelCh2 = importList{n,10};
         s.(FileBatch).legendch1 = importList{n,11};
-        s.(FileBatch).legendch2 = importList{n,12};
         s.(FileBatch).comment = importList{n,13};
         s.MetaList = [s.MetaList;{FileBatch}];
     end
@@ -119,10 +119,11 @@ close(h) % close waitbar
 
 %% For loop stiching blocks of data together grouping metadata blocks together
 for n = 1:length(s.MetaList) % Loops through all the different groups of spans in data batch
-[s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched] = freqStitch(s.(char(s.MetaList(n))).f,s.(char(s.MetaList(n))).ch1);
-[s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched] = freqStitch(s.(char(s.MetaList(n))).f,s.(char(s.MetaList(n))).ch2);
+    [s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch1Stitched] = freqStitch(s.(char(s.MetaList(n))).f,s.(char(s.MetaList(n))).ch1);
+    if (importList{n,4}==2)
+        [s.(char(s.MetaList(n))).fStitched,s.(char(s.MetaList(n))).ch2Stitched] = freqStitch(s.(char(s.MetaList(n))).f,s.(char(s.MetaList(n))).ch2);
+    end
 end
-
 
 
 
