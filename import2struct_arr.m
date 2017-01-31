@@ -87,7 +87,6 @@ for n = 1:length(importList(:,1)) % Loops to read in each file name in turn
         error('Wrong number of channels, must be either 1 or 2')
     end
     
-    size(Buffer_C)
     FileBatch = char(importList(n,2)); %Find metadata label for file entry in FileNames_wtMetaData
     if sum(ismember(fieldnames(s),FileBatch))>0 % Test if batch identifer is already present in 's', if so append to it in new row
         s.(FileBatch).f = [s.(FileBatch).f,Buffer_C{:,1}];
