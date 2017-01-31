@@ -82,7 +82,7 @@ display(LegendValues)
 
 % Now plot
 n = 1; %Just use labels from first dataset loaded.
-h = figure(startFigNum)
+h = figure(startFigNum);
 eval(['plot(' PlotEntryList ')']) % Plots list of entries created in do loop above, eval is useful for dynamic lines of code
 ax = gca; % Returns handle of the curret axes for the current figure
 ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
@@ -92,7 +92,7 @@ ax.YScale = 'log';
 ax.FontSize = 14; % Set the font size to something readable
 % % ax.YLim = [-170,-80]; % Set y-axis limits
 ax.XLim = [min(CompileOfAllfVectors),max(CompileOfAllfVectors)];
-title(s.(char(s.MetaList(n))).PlotTitle)
+title(s.(char(s.MetaList(n))).dataPlotTitle)
 xlabel(s.(char(s.MetaList(n))).xaxisLabel)
 ylabel(s.(char(s.MetaList(n))).yaxisLabelCh1)
 eval(['legend(' LegendValues ')'])
