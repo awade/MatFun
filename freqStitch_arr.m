@@ -70,13 +70,12 @@ end
 
 % MaxFreqOfEachVector = max(fInput); %Finds the max frequency of each PSD span.
 [~,SortOrderSpans] = sort(MaxFreqOfEachVector); % Finds the sort order (dumping actual sort) to determin which order to stitch in.
-display(SortOrderSpans)
 
 for n = 1:length(SortOrderSpans) % Resorts spans in increasing order so they can be stitched
     freqPoints{n} = fInput{SortOrderSpans(n)};
     dataPoints{n} = dataInput{SortOrderSpans(n)};
 end
-display(string('hello world'))
+
 freqStitch = freqPoints{1}; dataStitch = dataPoints{1}; %Starts the vectors at the lowest spans
 
 for n = 2:length(SortOrderSpans) %Sequentialy stitch all the spans, starting at the lowest and adding high spans starting at the highest freq of the previous span
