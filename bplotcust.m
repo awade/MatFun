@@ -78,7 +78,6 @@ PlotEntryList = PlotEntryList(1:end-1); % remove trailing comma
 LegendValues = LegendValues(1:end-1);% remove trailing comma
 % CompileOfAllfVectors = CompileOfAllfVectors(1:end-1); % remove trailing semi-colon
 
-display(LegendValues)
 
 % Now plot
 n = 1; %Just use labels from first dataset loaded.
