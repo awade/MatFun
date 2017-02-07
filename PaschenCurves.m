@@ -1,6 +1,10 @@
 % Script for ploting the Paschen arc breakdown volatages as a function of pd for systems
 % operating under vacuum.  
 %
+% Author: Andrew Wade
+% Date: 20170206
+%
+%
 % These curves give the breakdown voltage as a function of presure and arc
 % distance and is empirically derived.  This is a matter of concern for
 % vacuum systems that utilise high voltage to drive actuators and its is
@@ -22,7 +26,7 @@
 % as the cascade effect is inhibited at shorter distances by a lower
 % avaliablity of ionisable gasses. Arc voltage acutally increases below a
 % certain optimal distance given a presure and viasa vesa for presures.
-
+%
 %A simple version of the breakdown voltage hase the form:
 % V = V_min.*(p.*d./c)./(1+log(p.*d./c))
 % In textbooks V_min and c are ussually explicitly defined and
@@ -34,14 +38,16 @@ clear all
 nPlotLength = 1000;
 
 % Define some common gas properties
+% Data drawn from http://home.earthlink.net/~jimlux/hv/paschen.htm
+% This in turn references: Naidu, M.S. and Kamaraju, V., High Voltage Engineering, 2nd ed., McGraw Hill, 1995, ISBN 0-07-462286-2
 GasProperties = {...
-    %'Name',V_minValue,c_value
-    'Air',327,7.558;...
-    'CO2',420,6.798;...
-    'Nitrogen (N2)',251,8.931;...
-    'Oxygen (O2)',450,9.331;...
-    'He',156,53.32;...
-    'Ar',137,11.997};
+    %'Name',V_minValue[V],pd_VsminVal[torr.cm]
+    'Air',327,0.567;...
+    'CO2',420,0.51;...
+    'Nitrogen (N2)',251,0.67;...
+    'Oxygen (O2)',450,0.7;...
+    'He',156,4.0;...
+    'Ar',137,0.9};
 
 for n = 1:size(GasProperties,1)
     V_min = GasProperties{n,2};
