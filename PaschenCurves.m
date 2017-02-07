@@ -11,7 +11,7 @@
 %
 % The Paschen Curves operates according to 
 %
-% V = a.*p.*d/(ln(p.*.d)+b)
+% V = a.*p.*d/(ln(p.*d)+b)
 %
 % Where p is presure, d is distance and a and b are constants specific to
 % the gas in question.
@@ -22,105 +22,50 @@
 % as the cascade effect is inhibited at shorter distances by a lower
 % avaliablity of ionisable gasses. Arc voltage acutally increases below a
 % certain optimal distance given a presure and viasa vesa for presures.
-%
 
-% for air
-a = 4.36e7; %[V/(atm.m)]
-b = 12.8; %[-]
-
-
-d_PaschenCurve = logspace(-5.5,1,100);
-p = 1;
-
-V_PaschenCurve = a.*p.*d_PaschenCurve./(log(p.*d_PaschenCurve)+b);
-V_minBreakDown = a.*exp(1-b)
-
-
-figure(1)
-loglog(d_PaschenCurve,V_PaschenCurve)
-title('Paschens Curve - Breakdown voltage as function of p*d')   
-xlabel('p*d [kg.m^-1.s^2')
-ylabel('V_BreakDown [volts]')
-grid off
-% ledgend('','')
-
-
-%% The above is redone for a different arangement of the above equation in
-
-%the form:
-% V = V_min.*p.*d./c./(1+log(p.*d./c))
-% This is a much better form as V_min and c are explicitly defined and
+%A simple version of the breakdown voltage hase the form:
+% V = V_min.*(p.*d./c)./(1+log(p.*d./c))
+% In textbooks V_min and c are ussually explicitly defined and
 % avliable from various sources on the web
 
+clear all 
+
+
 nPlotLength = 1000;
-V_minVals = [327,420,251,450,156,137]
-c_vals = [7.558,6.798,8.931,9.331,53.32,11.997];%[0.567,0.51,0.67,0.7,4.0,0.9];
 
-for n = 1:length(c_vals)
-d_PaschenCurves(:,n) = logspace(log10(max(c_vals(n))./exp(1)),3,nPlotLength);
-p = 1;
+% Define some common gas properties
+GasProperties = {...
+    %'Name',V_minValue,c_value
+    'Air',327,7.558;...
+    'CO2',420,6.798;...
+    'Nitrogen (N2)',251,8.931;...
+    'Oxygen (O2)',450,9.331;...
+    'He',156,53.32;...
+    'Ar',137,11.997};
+
+for n = 1:size(GasProperties,1)
+    V_min = GasProperties{n,2};
+    c = GasProperties{n,3};
+    pd = logspace(log10(max(c)./exp(1)),3,nPlotLength);
+    BreakdownVoltage = V_min.*pd./c./(1+log(pd./c));
+    BreakdownVoltage = V_min.*pd./(1+log(pd./c));
+    GasProperties{n,4} = pd;
+    GasProperties{n,5} = BreakdownVoltage;
 end
 
-V_PaschenCurves = zeros(length(d_PaschenCurves),length(V_minVals));
 
-for n = 1:length(V_minVals)
-    V_min = V_minVals(n);
-    c = c_vals(n);
-    V_PaschenCurves(:,n) = V_min.*p.*d_PaschenCurves(:,n)./c./(1+log(p.*d_PaschenCurves(:,n)./c));
-    V_Unitless(:,n) = p.*d_PaschenCurves(:,n)./c./(1+log(p.*d_PaschenCurves(:,n)./c));
-end
 
-figure(2)
-loglog(d_PaschenCurves(:,1),V_PaschenCurves(:,1),d_PaschenCurves(:,2),V_PaschenCurves(:,2),d_PaschenCurves(:,3),V_PaschenCurves(:,3),d_PaschenCurves(:,4),V_PaschenCurves(:,4),d_PaschenCurves(:,5),V_PaschenCurves(:,5),d_PaschenCurves(:,6),V_PaschenCurves(:,6))
+figure(77); cla; hold on
+cellfun(@(x,y) plot(x,y),GasProperties(:,4),GasProperties(:,5));
+grid on
+ax = gca; % Returns handle of the curret axes for the current figure
+ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
+ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
+ax.XScale = 'log'; %Sets axis type to 'log'
+ax.YScale = 'log';
+ax.FontSize = 14; % Set the font size to something readable
 title('Paschens Curve - Breakdown voltage as function of p*d')   
-xlabel('p*d [Torr.cm^-2]')
-ylabel('V_BreakDown [Volts]')
-grid off
-legend('Air','CO2', 'Nitrogen (N2)','Oxygen (O2)','He','Ar')
-
-
-figure(3)
-loglog(d_PaschenCurves(:,1),V_Unitless(:,1),d_PaschenCurves(:,2),V_Unitless(:,2),d_PaschenCurves(:,3),V_Unitless(:,3),d_PaschenCurves(:,4),V_Unitless(:,4),d_PaschenCurves(:,5),V_Unitless(:,5),d_PaschenCurves(:,6),V_Unitless(:,6))
-
-
-
-
-
-% %% 3D plot of presure and distance vs Voltage
-% p = linspace(0.01,1,20);
-% d = linspace(0.0001,0.1,20);
-% 
-% 
-% [P,D] = meshgrid(p,d);
-% V = a.*P.*D./(log(P.*D)+b);
-% display(V)
-% mfigure(3)
-% surf(P,D,V)
-% 
-% productPD = P.*D;
-% 
-% 
-% 
-% 
-% 
-% 
-% 
-% 
-% %Symboically solve for pd for a range of chosen voltages to work out if
-% %curves overlap or minimum V_breakdown repsents the minimum
-% 
-% %%
-% syms pd
-% dp_atBreakDown = [];
-% 
-% for V = 328:50:1000
-%     buff = vpasolve(a*pd./(log(pd)+b)==V,pd);
-%     dp_atBreakDown = [dp_atBreakDown buff];
-% end
-% 
-% p = linspace(1e-2,1e3,100);
-% figure(2)
-% hold on
-% for n = 1:length(dp_atBreakDown)
-% loglog(p,dp_atBreakDown(n)./p)
-% end
+xlabel('p*d [Torr.cm]')
+ylabel('Break Down Voltage [Volts]')
+legend(GasProperties{:,1})
+hold off
