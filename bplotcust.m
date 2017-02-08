@@ -82,13 +82,13 @@ LegendValues = LegendValues(1:end-1);% remove trailing comma
 % Now plot
 n = 1; %Just use labels from first dataset loaded.
 h = figure(startFigNum);
-eval(['plot(' PlotEntryList ')']) % Plots list of entries created in do loop above, eval is useful for dynamic lines of code
+eval(['p = plot(' PlotEntryList ',''LineWidth'',1.5' ');']) % Plots list of entries created in do loop above, eval is useful for dynamic lines of code
 ax = gca; % Returns handle of the curret axes for the current figure
 ax.GridLineStyle = '-'; % Sets grid lines to solid instead of defult dotted
 ax.MinorGridLineStyle = '-'; % Sets minor grid lines to solid instead of defult dotted
 ax.XScale = 'log'; %Sets axis type to 'log'
 ax.YScale = 'log';
-ax.FontSize = 14; % Set the font size to something readable
+ax.FontSize = 16; % Set the font size to something readable
 % % ax.YLim = [-170,-80]; % Set y-axis limits
 ax.XLim = [min(CompileOfAllfVectors),max(CompileOfAllfVectors)];
 title(s.(char(s.MetaList(n))).dataPlotTitle)
