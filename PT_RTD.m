@@ -20,6 +20,7 @@ for n = 1:length(T)
     end
 end
 
+
 figure(1)
 plot(T,Rt)
 title('Temperature vs resistance 1PT100 type resistive sensor')
